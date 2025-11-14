@@ -462,3 +462,143 @@ class Usersettings extends User {
 	}
 }
 ```
+
+## Acrónimo STUPID
+
+6 Code Smells que debemos de evitar.
+
+- **S**ingleton: patrón singleton.
+- **T**ight Coupling: alto acoplamiento.
+- **U**nestability: código no probable (unit test).
+- **P**remature optimization: optimizaciones prematuras.
+- **I**ndescriptive Naming: nombres poco descriptivos.
+- **D**uplication: duplicidad de código, no aplicar el principio DRY.
+
+### Patrón Singleton
+
+**Pros:**
+
+Garantiza una única instancia de la clase a lo largo de toda la aplicación.
+
+**¿Por qué es Code Smell?**
+
+**Contras:**
+
+- Vive en el contexto global.
+- Puede ser modificado por cualquiera y en cualquier momento.
+- No es rastreable.
+- Difícil de testear debido a su ubicación.
+
+### Acoplamiento y Cohesión
+
+Lo ideal es tener bajo acoplamiento y buena cohesión.
+
+**¿Qué significa esto?**
+
+![61297fbd4757d014987a917449ea48a2.png](:/3763038cbb7c4e47b8a472635bdcdf3e)
+
+**Alto acoplamiento**
+
+Desventajas:
+
+- Un cambio en un módulo por lo general provoca un efecto dominó de los cambios en otros módulos.
+- El ensamblaje de módulos puede requerir más esfuerzo y/o tiempo debido a la mayor dependencia entre módulos.
+- Un módulo en particualr puede ser más difícil de reutilizar y/o probar porque se deben incluir módulos dependientes.
+
+Posibles soluciones:
+
+- "A" tiene un atributo que se refiere a "B".
+- "A" llama a los servicios de un objeto "B".
+- "A" tiene un método que hace referencia a "B" (a través del tipo de retorno o parámetro).
+- "A" es una subclase de (o implementa) la clase "B".
+
+> "Queremos diseñar componentes que sean auto contenidos, auto suficientes e independientes. Con un objetivo y un propósito bien definido." - The Pragmatic Programmer
+
+**Cohesión**
+
+- La cohesión se refiere a lo que la clase (o módulo) puede hacer.
+- La baja cohesión significaría que la clase realiza una gran variedad de acciones: es amplia, no se enfoca en lo que debe hacer.
+- Alta cohesión significa que la clase se enfoca en lo que debería estar haciendo, es decir, solo métodos relacionados con la intención de la clase.
+
+**Ideal**
+
+![78980ee7079e7534567bb28e80246b29.png](:/2bae2c85a3794a6aa71baeb2755c3868)
+
+**Acoplamiento**
+
+Se refiere a cuán relacionadas o dependientes son dos clases o módulos entre sí.
+
+- En bajo acoplamiento, cambiar algo importante en una clase no debería afectar a otra.
+- En alto acoplamiento, dificultaría el cambio y el mantenimiento de su código; dado que las clases están muy unidas, hacer un cambio podría requerir una renovación completa del sistema.
+
+Un buen diseño de software tiene alta cohesión y bajo acoplamiento.
+
+**Evitar**
+
+![03a32c660897877bf28874df107ef312.png](:/3c4bbb190c1d4d848252346bb337302a)
+
+### Código no probable
+
+Código dificilmente testeable.
+
+- Código con alto acoplamiento.
+- Código con muchas dependencias no inyectadas.
+- Dependencias en el contexto global (Tipo Singleton).
+
+Debemos de tener en mente las pruebas desde la creación del código.
+
+### Optimizaciones prematuras
+
+Mantener abiertas las opciones retrasando la toma de decisiones nos permite darle mayor relevancia a lo que es más importante en una aplicación.
+
+No debemos anticiparnos a los requisitos y desarrollar abstracciones innecesarias que puedan añadir complejidad accidental.
+
+**Complejidad accidental**
+
+Cuando implementamos una solución compleja a la mínima indispensable.
+
+**Complejidad esencial**
+
+La complejidad es inherente al problema.
+
+### Nombres poco descriptivos
+
+- Nombres de variables mal nombradas.
+- Nombres de clases genéricas.
+- Nombres de funciones mal nombradas.
+- Ser muy específico o demasiado genérico.
+
+La única medida de calidad de código es el "WTF" por minuto.
+
+### Duplicidad de Código
+
+No aplicar el principio DRY
+
+|Real|Accidental|
+|:--|:--|
+|- Código es idéntico y cumple la misma función.<br> - Un cambio implicaría actualizar tod el código idéntico en varios lugares. <br> - Incrementa posibilidades de error humano al olvidar una parte para actualizar.<br> - Mayor cantidad de pruebas innecesarias.|- Código luce similar pero cumple funciones distintas.<br> - Cuando hay un cambio, sólo hay que modificar un solo lugar. <br> - Este tipo de duplicidad se puede trabajar con parámetros u optimizaciones.|
+
+### Otros "Code Smells"
+
+[Ver Refactoring.guru](https://refactoring.guru/)
+
+- Inflación
+	- Funciones y Clases muy largas.
+- Obsesión Primitiva
+	- Abusar del uso de datos primitivos.
+- Lista larga de parámetros.
+	- Más de 3 o 4 métodos en un método.
+
+**Acopladores**
+
+Todos los olores de este grupo contribuyen al acoplamiento excesivo entre clases o muestran lo que sucede si el acoplamiento se reemplaza por una delegación excesiva.
+
+- Feature Envy
+	- Un métod accede más a los datos de otro método más que a sus propios datos.
+- Intimidad Inapropiada
+	- Cuando una clase usa campos y metodos internos de otra clase.
+- Cadenas de mensajes
+	- Cuando tenemos una función "A", que llama a "B", "C", "D" para llegar a "E".
+- The Middle Man
+	- Si una clase realiza solo una acción y esa acción es delegar el trabajo a otra clase.
+
