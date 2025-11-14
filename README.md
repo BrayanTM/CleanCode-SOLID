@@ -46,7 +46,7 @@ Ya sea el cliente, el proveedor con recursos o el propio desarrollador dedicando
 
 > "Programar es el arte de decirle a otro humano lo que quieres que la computadora haga." - Donald Knuth
 
-## Nombres pronunciables y expresivos.
+### Nombres pronunciables y expresivos.
 
 ```typescript
 // Mal
@@ -76,7 +76,7 @@ class User {};
 interface User {};
 ```
 
-## Nombres según el tipo de dato
+### Nombres según el tipo de dato
 
 **Arreglos - Arrays**
 
@@ -143,7 +143,7 @@ updateUser();
 sendEmail();
 ```
 
-## Nombres de Clases
+### Nombres de Clases
 
 ```typescript
 // Malo
@@ -174,7 +174,7 @@ Regla general (no solo para clases): Si aglo no tiene sentido, remuévelo o refa
 class SpecialViewingCaseMonsterManagerEventsHandlerActivitySingleton {};
 ```
 
-## Funciones
+### Funciones
 
 > "Sabemos que estamos desarrollando código limpio cuando cada función hace exactamente lo que su nombre indica" - Ward Cunningham
 
@@ -263,3 +263,202 @@ function sendEmail( { toWhom, from, body, subject, apikey }:SendEmailOptions ): 
 - Ayuda a centralizar los procesos.
 - Aplicar el principio DRY, usualmente lleva a refactorizar.
 
+## Estructura de Clases
+
+> "El buen código parece estar escrito por alguien a quien le importa". - Michael Feathers
+
+```typescript
+class HtmlElement {
+
+	// Comenzar con lista de propiedades.
+	public static domReady: boolean = false;
+
+	private _id: string;
+	private type: string;
+	private updatedAt: number;
+	// ----------------------------------
+
+	// Métodos.
+	static createInput( id: string ) {
+		return new HtmlElement( id, 'input' );
+	}
+
+	constructor( id: string, type: string ) {
+		this._id = id;
+		this.type = type;
+		this.updatedAt = Date.now();
+	}
+
+	setType( type: string ) {
+		this.type = type;
+		this.updatedAt = Date.now();
+	}
+
+	get id(): string {
+		return this.id;
+	}
+	// ----------------------------------
+}
+```
+
+**Comenzar con lista de propiedades:**
+
+1. Propiedades estáticas.
+2. Propiedades públicas
+3. Propiedades privadas de último.
+
+**Métodos:**
+
+1. Empezando por los constructores estáticos.
+2. Luego el constructor.
+3. Seguidamente métodos estáticos.
+4. Métodos privados después.
+5. Resto de métodos de instancia ordenados de mayor a menor importancia.
+6. Getters y Setters al final.
+
+## Comentarios
+
+```typescript
+// Malos comentarios
+
+const name = 'John Doe';
+
+// Si name es igual a 'John Doe'
+if ( name === 'John Doe' ) {
+	// entonces...
+}
+```
+
+Evitar usar comentarios, pero...
+
+Cuando usamos librerías de terceros, API's, frameworks, etc. Nos encontramos ante situaciones en las que escribir un comentario será mejor que dejar una solución compleja o un hack sin explicación.
+
+Los comentarios deberían ser la excepción, no la regla.
+
+> "No comentes el código mal escrito, reescríbelo" - Brian W. Kernighan
+
+Recuerda:
+Nuestro código debe ser lo suficientemente auto explicativo.
+
+Pero a veces es necesario comentarlo.
+Lo que nosotros deberíamos comentar es ¿El por qué? en lugar del ¿qué? o ¿cómo?.
+
+## Uniformidad en el proyecto
+
+Problemas similares, soluciones similares.
+
+```typescript
+// Mantiene uniformidad
+const createProduct = () => {
+	
+}
+
+const updateProduct = () => {
+	
+}
+
+const deleteProduct = () => {
+	
+}
+
+// No mantiene uniformidad
+const createNewUser = () => {
+	
+}
+
+const modifyUser = () => {
+	
+}
+
+const removeUser = () => {
+	
+}
+
+// Corregido
+const createUser = () => {
+	
+}
+
+const updateUser = () => {
+	
+}
+
+const deleteUser = () => {
+	
+}
+```
+
+Esto no solo se aplica en el código, hay que aplicar esto también en la estructura de nuestro directorio.
+
+```
+componenets/
+├── product-list/
+├── product-item.ts
+```
+
+```
+componenets/
+├── product-list/
+│   └── product-list.html
+│   └── product-list.ts
+├── product-item.ts
+```
+
+```
+componenets/
+├── product-item/
+│   └── product-item.ts
+├── product-list/
+│   └── product-list.html
+│   └── product-list.ts
+```
+
+**Identación**
+
+```typescript
+// Mala Identación
+class Usersettings extends User {
+constructor(
+	public workingDirectory: string,
+	public lastFolderOpen: string,
+	email: string,
+	role: string,
+	name: string,
+	gender: Gender,
+	birthdate: Date,
+){
+super(
+	email,
+	role,
+	new Date(),
+	name,
+	gender,
+	birthdate
+)
+}
+}
+```
+
+```typescript
+// Buena Identación
+class Usersettings extends User {
+	constructor(
+		public workingDirectory: string,
+		public lastFolderOpen: string,
+		email: string,
+		role: string,
+		name: string,
+		gender: Gender,
+		birthdate: Date,
+	){
+		super(
+			email,
+			role,
+			new Date(),
+			name,
+			gender,
+			birthdate
+		)
+	}
+}
+```
