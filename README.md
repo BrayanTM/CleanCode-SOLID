@@ -602,3 +602,133 @@ Todos los olores de este grupo contribuyen al acoplamiento excesivo entre clases
 - The Middle Man
 	- Si una clase realiza solo una acción y esa acción es delegar el trabajo a otra clase.
 
+# Principios SOLID
+
+Los principios SOLID	nos indican cómo organizar nuestras funciones y estructuras de datos en componenetes y cómo dichos componentes deben estar interconectados.
+
+Los  5 principios S.O.L.I.D. de diseño de software son:
+
+- **S** – Single Responsibility Principle (SRP)
+- **O** – Open/Closed Principle (OCP)
+- **L** – Liskov Substitution Principle (LSP)
+- **I** – Interface Segregation Principle (ISP)
+- **D** – Dependency Inversion Principle (DIP)
+
+## SRP - Principio de Responsabilidad Única
+
+> "Nunca debería haber más de un motivo por el cual cambiar una clase o módulo" - Robert C. Martin
+
+"tener una única responsabilidad" !== "hacer una única cosa"
+
+**Detectar violaciones de SRP**
+
+- Nombres de clases y módulos demasiado genéricos.
+- Cambios en el código suelen afectar la clase o módulo.
+- La clase involucra múltiples capas.
+- Número elevado de importaciones.
+- Cantidad elevada de métodos públicos.
+- Excesivo número de líenas de código.
+
+## OCP - Principio de Abierto y Cerrado
+
+Es un principio que depende mucho del contexto.
+
+Establece que las entidades de sortware (clases, módulos, métodos, etc.) deben estar abiertas para la extensión, pero cerradas para la modificación.
+
+La forma más sencilla de demostrar este principio es considerar un método que hace una cosa.
+
+![193abf58c1c62d0f201638e364856ee8.png](:/6b53500c0aaf4157917596c264672068)
+
+El principio abierto-cerrado también se puede lograr de muchas otras maneras, incluso mediante el uso de la herencia o mediante patrones de diseño de composición como el patrón de estrategia.
+
+**Detectar violaciones de OPC**
+
+- Cambios normalmente afectan nuestra clase o módulo.
+- Cuando una clase o módulo afecta muchas capas. (Presentación, almacenamiento, etc.)
+
+## LSP - Principio de Substitución de Liskov
+
+> "Las funciones que utilicen punteros o referencias a clases base deben ser capaces de usar objetos de clases derivadas sin saberlo" - Robert C. Martin
+
+"Siendo U un subtipo de T, cualquier instancia de T debería poder ser sustituida por cualquier instancia de U sin alterar las propiedades del sistema."
+
+
+## ISP - Principio de Segregación de Interfaz
+
+> "Los clientes no deberían estar obligados a depender de interfaces que no utilicen" - Robert C. Martin
+
+Este principioi establece que los clientes no deberían verse forzados a depender de interfaces que no usan.
+
+**Detectar violaciones de ISP**
+
+- Si las interfaces que diseñamos nos obligan a violar los principios de responsabilidad única y substitución de Liskov.
+
+## DIP - Principio de Inversión de Dependencias
+
+> "Los módulos de alto nivel no deben depender de módulos de bajo nivel. Ambos deben depender de abstracciones. Las abstracciones no deben depender de concreciones. Los detalles deben depender de abstracciones." - Robert C. Martin
+
+- Los módulos de alto nivel no deberían depender de módulos de bajo nivel.
+- Ambos deberían depender de abstracciones.
+- Las abstraccines no deberían depender de detalles.
+- Los detalles deberían depender de abstracciones.
+
+Los componenetes más importantes son aquellos centrados en resolver el problema subyacente al negocio, es decir, la capa de dominio.
+
+Los menos importantes son los que están próximos a la infraestructura, es decir, aquellos relacionados con la UI, la persistencia, la comunicación con API externas, etc.
+
+**Depender de abstracciones**
+
+Nos estamos refiriendo a clases abstractas o interfaces.
+
+Uno de los motivos más importantes por el cual las reglas de negocio o capa de dominio deben depender de estas y no de concreciones es que aumenta su tolerancia al cambio.
+
+**¿Por qué obtenemos este beneficio?**
+
+Cada cambio en un componente abstracto implica un cambio en su implementación.
+
+Por el contrario, los cambios en implementaciones concretas, la mayoría de las veces, no requieren cambios en las interfaces que implementa.
+
+**Inyección de Dependencias**
+
+Dependencia en programación, significa que un módulo o componenete requiere de otro para poder realizar su trabajo.
+
+En algún momento nuestro programa o aplicación llegará a estar formado por muchos módulos. Cuando esto pase, es cuando debemos usar inyección de dependencias.
+
+Ejemplo:
+
+```typescript
+class UseCase {
+	constructor() {
+		this.externalService = new ExternalService();
+	}
+
+	doSomething() {
+		this.externalService.doExternalTask();
+	}
+}
+
+class ExternalService {
+	doExternalTak() {
+		console.log("Doing task...")
+	}
+}
+```
+
+```typescript
+// Aplicando DIP
+class UseCase {
+	constructor(externalService: ExternalService) {
+		this.externalService = externalService;
+	}
+
+	doSomething() {
+		this.externalService.doExternalTask();
+	}
+}
+
+class ExternalService {
+	doExternalTak() {
+		console.log("Doing task...")
+	}
+}
+```
